@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        body {
+            height: 50000px;
+        }
+        .box {
+            width: 600px;
+            margin: 200px auto;
+        }
+        input {
+            width: 500px;
+            height: 30px;
+            padding: 5px;
+            font-size: 22px;
+            outline-style: none;
+        }
+        button {
+            width: 80px;
+            height: 43px;
+            font-size: 22px;
+        }
+        ul {
+            width: 492px;
+            padding: 10px;
+            border: 1px solid red;
+            border-top: 0;
+        }
+        li {
+            cursor: pointer;
+            font: 20px/26px "simsun";
+        }
+        li:hover {
+            background-color: red;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            //需求：在input里面输入内容，判断如果input里面的内容后台有很多以他为开头的，
+            //     那么生成一个ul,里面放入很多个li,并设置内容;
+
+            //模拟后台数据库;
+            var arr = ["a","aa","aaa","aaaa","ab","abc","abcd","abcde","abcdef","bb","bbc"];
+
+            //思路: 触动事件后用input里面的value值判断arr里面的内容，
+            //      如果有以input的value值为开头的放入一个新数组;（将来按照新数组创建li）
+
+            //获取元素;
+            var box = document.querySelector(".box");
+            var inp = box.firstElementChild || box.firstChild;
+            //绑定事件（键盘弹起）
+            inp.onkeyup = function () {
+                //事件里面定义数组，保证新数组每次使用的时候都是空的;
+                var newArr = [];
+                //判断: 老数组中是否有以input的value值为开头的元素，添加到新数组中;
+                for(var i=0;i<arr.length;i++){
+                    if(arr[i].indexOf(this.value) === -1){//以input的value为开头  indexOf(参数） 弹出指定元素索引值
+                        newArr.push(arr[i]);
+                    }
+                }
+
+                //bug1: 每次都会产生一个新的ul;  1.用老的啰嗦;   2.有老的就删除;
+                        //如果div里面的子元素有三个，那么就删除第三个;
+                if(box.children.length === 3){
+                    //干掉第三个，就是那个ul；
+                    box.removeChild(box.children[2]);
+                }
+
+                //bug2: 如果没有符合条件的(newArr长度为0)，就删除ul，旧不要产生新的ul;
+                        //上面已经删除了，我们只需要return(下面不执行就可以);
+                //bug3: 如果输入的内容为""，就不要在产生新的ul了(因为任何字符串都是以""为开头，那么所有元素都会进入newArr)
+                if(newArr.length===0 || this.value === ""){
+                    return;
+                }
+
+                //创建ul，然后根据newArr里面的元素个数创建li，添加到ul;ul在添加到box里面;
+                var ul = document.createElement("ul");
+                //for循环根据newArr创建li
+                for(var i=0;i<newArr.length;i++){
+                    var li = document.createElement("li");
+                    li.innerHTML = newArr[i];
+                    //把li放入ul中
+                    ul.appendChild(li);
+                }
+                //把ul放入box
+                box.appendChild(ul);
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="box">
+        <input type="text"/>
+        <button>搜索</button>
+    </div>
+
+</body>
+</html>

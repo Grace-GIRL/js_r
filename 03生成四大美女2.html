@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            border: 1px solid red;
+            width: 300px;
+            height: 400px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        window.onload = function () {
+            var btn = document.getElementsByTagName("button")[0];
+            var box = document.getElementById("box");
+            btn.onclick = function () {
+                box.innerHTML = "<ul>" +
+                    "<li>美女1</li>" +
+                    "<li>美女2</li>" +
+                    "<li>美女3</li>" +
+                    "<li>美女4</li>" +
+                    "</ul>";
+                
+
+                //此段代码必须置于onclick事件内部（置于外部不生效）
+                var liArr = document.getElementsByTagName("li");
+                for (var i = 0; i < liArr.length; i++) {
+                    liArr[i].onmouseover = function () {
+                        this.style.backgroundColor = "red";
+                    }
+                    liArr[i].onmouseout = function () {
+                        this.style.backgroundColor = "#fff";
+                    }
+                }
+            }
+
+        }
+
+
+    </script>
+    <button>生成四大美女</button>
+    <div id="box">
+        <!-- <ul>
+            <li>美女1</li>
+            <li>美女2</li>
+            <li>美女3</li>
+            <li>美女4</li>
+        </ul> -->
+    </div>
+</body>
+
+</html>

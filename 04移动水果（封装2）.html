@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        select {
+            width: 200px;
+            height: 400px;
+            background-color: yellow;
+        }
+
+        select option {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        window.onload = function () {
+            // var btnArr = document.getElementsByTagName("button")[0]; wrong
+            var btnArr=document.getElementsByTagName("button");
+            var sel1 = document.getElementById("sel1");
+            var sel2 = document.getElementById("sel2");
+            btnArr[0].onclick=function(){
+                moveall(sel1,sel2);
+            }
+            btnArr[1].onclick = function () {
+                moveselected(sel1, sel2);
+            }
+            btnArr[2].onclick = function () {
+                moveselected(sel2, sel1);
+            }
+            btnArr[3].onclick = function () {
+                moveall(sel2, sel1);
+            }
+
+            //封装选择全部移动
+            function moveall(ele1, ele2) {
+                var optArr = ele1.children;
+                for (var i = 0; i < optArr.length; i++) {
+                    ele2.appendChild(optArr[i]);
+                    i--;
+                }
+            }
+
+            //封装选择部分移动
+            function moveselected(ele1, ele2) {
+                var optArr = ele1.children;
+                for (var i = 0; i < optArr.length; i++) {
+                    if (optArr[i].selected) {
+                        optArr[i].selected = false;//重点 
+                        ele2.appendChild(optArr[i]);
+                        i--;
+                    }
+                }
+            }
+        }
+
+
+
+
+    </script>
+    <select name="" id="sel1" size="4" multiple="multiple">
+        <option value="">西瓜</option>
+        <option value="">菠萝</option>
+        <option value="">草莓</option>
+        <option value="">苹果</option>
+    </select>
+    <button>>>></button>
+    <button>></button>
+    <button>
+        <</button>
+            <button>
+                <<<</button>
+
+                    <select name="" id="sel2" size="4" multiple="multiple">
+
+                    </select>
+</body>
+
+</html>

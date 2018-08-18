@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            border: 1px solid red;
+            width: 300px;
+            height: 400px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        window.onload = function () {
+            var btn = document.getElementsByTagName("button")[0];
+            var box = document.getElementById("box");
+            var arr = ["西施", "昭君", "杨贵妃", "貂蝉"];
+            btn.onclick = function () {
+                // 添加元素节点ul
+                // var creatul = document.creatElement(
+                //     `<ul>
+                //         <li>西施</li>
+                //         <li>昭君</li>
+                //         <li>杨贵妃</li>
+                //         <li>貂蝉</li>
+                //     </ul>`
+                //     )
+                // box.appendChild("creatul");
+
+                // 方法一
+                box.innerHTML=           
+                `<ul>
+                    <li>西施</li>
+                    <li>昭君</li>
+                    <li>杨贵妃</li>
+                    <li>貂蝉</li>
+                </ul>`
+
+                // 方法二
+
+            //     box.innerHTML = "";
+            //     // var ul = document.creatElement("ul");
+            //     var ul = document.createElement("ul");
+            //     for (var i = 0; i < arr.length; i++) {
+            //         var li = document.createElement("li");
+            //         // li.innerHTML="arr[i]"; 语法错误
+            //         li.innerHTML = arr[i];
+            //         ul.appendChild(li);
+            //     }
+            //     box.appendChild(ul);
+            }
+
+            //需求2：鼠标移入每一个li，背景色变为红色，移出变为原色；
+            //创建li标签后，才能绑定事件
+            var liArr = document.getElementsByTagName("li");
+            for (var i = 0; i < liArr.length; i++) {
+                liArr[i].onmouseover = function () {
+                    //当前的li变
+                    this.style.backgroundColor = "red";
+                }
+                //鼠标移开，变白;
+                liArr[i].onmouseout = function () {
+                    this.style.backgroundColor = "#fff";
+                }
+            }
+
+
+
+            // var lis = document.getElementsByTagName("li");
+            // for (var i = 0; i < lis.length; i++) {
+            //     lis[i].onmouseover = function () {
+            //         // this.style.background="red";
+            //         this.style.backgroundColor = "red";
+            //     }
+
+            //     lis[i].onmouseout = function () {
+            //         // this.style.background="write";
+            //         this.style.backgroundColor = "#fff";
+            //     }
+            // }
+        }
+
+    </script>
+    <!-- 节点操作 -->
+    <!-- 节点操作包括 节点的 创建，添加，删除，复制 -->
+    <!-- DOM节点分为 文档节点 元素节点 文本节点 属性节点 -->
+    <button>生成四大美女</button>
+    <div id="box">
+        <!-- <ul>
+            <li>西施</li>
+            <li>昭君</li>
+            <li>杨贵妃</li>
+            <li>貂蝉</li>
+        </ul> -->
+    </div>
+</body>
+
+</html>

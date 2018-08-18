@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .all{
+            width: 500px;
+            height: 200px;
+            padding:7px;
+            border:1px solid #ccc;
+            margin:100px auto;
+            position:relative;
+        }
+        .screen{
+            width: 500px;
+            height: 200px;
+            /* overflow:hidden; */
+            position:relative;
+        }
+
+        .screen li{
+            width: 500px;
+            height: 200px;
+            overflow:hidden;
+            float:left;
+        }
+        .screen ul{
+            width: 30000px;
+            position:absolute;
+            left:0;
+            top:0;
+
+        }
+        .all ol{
+            position:absolute;
+            right:10px;
+            bottom:10px;
+            line-height: 20px;
+            text-align: center;
+        }
+        .all ol li{
+            float:left;
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border:1px solid #ccc;
+            margin-left:10px;
+            cursor:pointer;
+        }
+        .all ol li.current{
+            background-color: yellow;
+        }
+        #arrow{
+            display:none;
+        }
+        #arr span {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            margin-top: -20px;
+            background: #000;
+            cursor: pointer;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-family: '黑体';
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.3;
+            border: 1px solid #fff;
+        }
+
+        #arr #right {
+            right: 5px;
+            left: auto;
+        }
+
+    
+    
+    
+    </style>
+</head>
+<body>
+    <script>
+        window.onload=function(){
+            var box=document.getElementById("all");
+            var screen=document.getElementById("screen");
+            var imgWidth=screen.offsetWidth;
+            var ul=document.getElementById("ul");
+            var ulLiArr=ul.children;
+            var ol=document.getElementById("ol");
+            var arrow=document.getElementById("arrow");
+            var left=document.getElementById("left");
+            var right=document.getElementById("right");
+            
+            //需求1
+            for(var i=0;i<ulLiArr.length;i++){
+                var li=document.createElement("li");
+                li.innerHTML=i+1;
+                ol.appendChild(li);
+            }
+            var olLiArr=ol.children;
+            olLiArr[0].className="current";
+
+            var newLi=ulLiArr[0].cloneNode(true);
+            ul.appendChild(newLi);
+
+            //需求2 鼠标放到ol里面的li，让ul移动;
+            for(var i=0;i<olLiArr.length;i++){
+                olLiArr[i].index=i;
+                olLiArr[i].onmouseover=function(){
+                    for(var j=0;j<olLiArr.length;j++){
+                        olLiArr[j].className="";
+                    }
+                    this.className="current";
+
+                    var sss=-imgWidth*this.index;
+                    animate(ul,sss);
+
+                    //bug2 当前第五章，滑向第一张
+                    console.log(this.index);
+                    if(square===4 && this.index===0){
+                        animate(ul,sss-imgWidth*(ulLiArr.length-1));
+                    }
+                    //bug2 当前第五张，滑向第二张
+                    if(square===4 && this.index===1){
+                        animate(ul,-imgWidth*(ulLiArr.length-1),function(){
+                            ul.style.left=0;
+                            animate(ul,-imgWidth*1);
+                        });
+                    }
+                    //bug2 当前第六张，滑向第1/2/3张
+                    if(key===5 && (this.index==1 || this.index==2 || this.index==0)){
+                        ul.style.left=0;
+                        animate(ul,-imgWidth*this.index);
+                    }
+                    //bug2 当前第一张，滑向第五张
+                    if(key===0 && (this.index==4 || this.index == 3)){
+                        ul.style.left=-(ulLiArr.length-1)*imgWidth+"px";
+                        animate(ul,-imgWidth*this.index);
+                    }
+
+                    //bug1 小方块移动ul之后,索引值没有通知key和square；
+                    key=this.index;
+                    square=this.index;
+
+                }
+            }
+
+        
+            //需求3 点击右侧按钮，让ul向左移动；
+            var key=0;
+            var square=0;
+            right.onclick=autoPlay;
+
+
+            //需求4 点击左侧按钮，让ul向右移动
+            left.onclick=function(){
+                key--;
+                square--;
+                if(square===-1){
+                    square=olLiArr.length-1;
+                }
+                if(key===-1){
+                    ul.style.left=-(ulLiArr.length-1)*imgWidth+"px";
+                    key=ulLiArr.length-2;
+                }
+                for(var j=0;j<olLiArr.length;j++){
+                    olLiArr[square].className="current";
+                    var sss=-imgWidth*key;
+                    animate(ul,sss);
+                }
+
+                //需求5 添加定时器
+                var timer=setInterval(autoPlay,1500);
+                box.onmouseenter=function(){
+                    arrow.style.display="block";
+                    clearInterval(timer);
+                }
+                box.onmouseleave=function(){
+                    arrow.style.display="none";
+                    timer=setInterval(autoPlay,1500);
+                }
+
+
+            }
+
+            //右侧按钮逻辑
+            function autoPlay(){
+                key++;
+                square++;
+                if(square===olLiArr.length){
+                    square=0;
+                }
+                if(key===ulLiArr.length){
+                    ul.style.left=0;
+                    key=1;
+                }
+                for(var j=0;j<olLiArr.length;j++){
+                    olLiArr[j].className="";
+                }
+                olLiArr[square].className="current";
+                var sss=-imgWidth*key;
+                animate(ul,sss);
+            }
+        
+        }
+
+        //匀速动画封装（1让那个元素移动 2移动到哪里）
+        function animate(ele,target,fn){
+            clearInterval(ele.timer);
+            ele.timer=setInterval(function(){
+                var step=target>ele.offsetLeft?10:-10;
+                ele.style.left=ele.offsetLeft+step+"px";
+                if(Math.abs(target-ele.offsetLeft)<=Math.abs(step)){
+                    ele.style.left=target+"px";
+                    clearInterval(ele.timer);
+                    if(fn){
+                        fn();
+                    }
+                }
+            },13);
+        }
+    
+    
+    </script>
+    <!-- 滑动轮播图 左右焦点图 无缝滚动 -->
+    <div class="all" id="all">
+        <div class="screen" id="screen">
+            <ul id="ul">
+                <li><img src="images/1.jpg" alt=""  width="500" height="200"></li>
+                <li><img src="images/2.jpg" alt=""  width="500" height="200"></li>
+                <li><img src="images/3.jpg" alt=""  width="500" height="200"></li>
+                <li><img src="images/4.jpg" alt=""  width="500" height="200"></li>
+                <li><img src="images/5.jpg" alt=""  width="500" height="200"></li>                       
+            </ul>
+            <!-- 小方块 -->
+            <ol id="ol">
+
+            </ol>
+            <!-- 小三角 -->
+            <div id="arrow">
+                <span id="left"><</span>
+                <span id="right">></span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

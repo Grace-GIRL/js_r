@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>我是div</div>
+    <div>我是div</div>
+    <div>我是div</div>
+    <p>我是p标签</p>
+    <p>我是p标签</p>
+    <p>我是p标签</p>
+
+    <script>
+        //利用沙箱完成样式设置
+        var setDiv=111;
+        var setP=222;
+        var getEle=333;
+
+        (function(){
+            function getEle(str){
+                return document.getElementsByTagName(str);
+            }
+
+            //设置Div样式
+            function setDiv(arr){
+                for(var i=0;i<arr.length;i++){
+                    arr[i].style.border="1px solid red";
+                }
+            }
+            //设置P样式
+            function setP(arr){
+                for(var i=0;i<arr.length;i++){
+                    arr[i].style.border="1px dashed green";
+                }
+            }
+
+            //在沙箱内调用
+            setDiv(getEle("div"));
+            setP(getEle("p"));
+
+        })();
+
+        console.log(setDiv);//111
+        console.log(setP);//222
+        console.log(getEle);//333
+        //没有暴露给全局，所以在沙箱外面不能调用；
+    
+    </script>
+</body>
+</html>

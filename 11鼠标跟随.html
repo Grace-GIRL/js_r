@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        img{
+            position:absolute;
+        }
+    </style>
+    <script src="lib/jquery-1.11.1-min.js"></script>
+    <script>
+        window.onload=function(){
+            var img=document.getElementsByTagName("img")[0];
+            document.onmousemove=function(event){
+                var event=event || window.event;
+                var pagex=event.pageX || event.clientX + scroll().left;
+                var pagey=event.pageY || event.clientY + scroll().top;
+
+                img.style.top=pagey-img.clientHeight/2+"px";
+                img.style.left=pagex-img.clientWidth/2+"px";
+            }
+        }
+    
+    
+    </script>
+</head>
+<body>
+    <img src="images/img1.png" alt="">
+</body>
+</html>

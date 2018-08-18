@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<style>
+		#content {
+			width: 300px;
+			height: 300px;
+			background-color: lightgreen;
+			margin: 20px 10px;
+
+		}
+
+		input {
+			width: 100px;
+			height: 50px;
+			line-height: 50px;
+			font-size: 20px;
+			margin: 5px 10px;
+
+		}
+		.hide{
+			display:none;
+		}
+	</style>
+</head>
+
+<body>
+	<script>
+		//页面简单，逻辑不复杂，推荐使用原生js，有效提高用户体检；因为无需因几百行代码二区加载几K甚至几十k的js库；
+		//js中有三种设置class的方法.
+								 //el.setAttribute('class','class1'),  wrong
+					             //el.setAttribute('className','class2'), wrong
+								 //el.className='class3'; right
+
+								//  Element.setAttribute(name, value); right MDN
+		window.onload = function () {
+			var input = document.getElementsByTagName("input")[0];
+			var content = document.getElementById("content");
+			input.onclick = function () {
+				console.log('hello');
+				// console.log(typeof("input.value")); string
+				if (input.value === "显示") {
+					input.value = "隐藏";
+					// content.className="hide"
+					content.setAttribute('class','hide');
+
+				}else if(input.value==="隐藏"){
+					input.value="显示";
+					content.className=""
+				}
+			}
+		}
+	</script>
+	<div id="box">
+		<input type="button" value="显示">
+		<!-- <button>显示</button>  使用innerHTML获取 -->
+		<div id="content">
+			日行一善，莫问前程...
+		</div>
+	</div>
+
+	<!-- 
+	<button>可以防止文本或者图像，进制使用图像映射
+	在form表单中使用input元素来创建按钮,(button在form表单中相当于input type="submit")
+	
+	<form action="">
+		<button>button</button>
+	
+		<input type="submit" value="input submit">
+		<input type="button" value="input button">
+	</form> 
+	-->
+</body>
+
+</html>
